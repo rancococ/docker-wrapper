@@ -1,0 +1,52 @@
+# from registry.cn-hangzhou.aliyuncs.com/rancococ/java:1.8.192-alpine
+FROM registry.cn-hangzhou.aliyuncs.com/rancococ/java:1.8.192-alpine
+
+# maintainer
+MAINTAINER "rancococ" <rancococ@qq.com>
+
+# set arg info
+ARG WRAPPER_URL=https://github.com/rancococ/wrapper/archive/v3.5.39.1.tar.gz
+
+# install wrapper
+RUN mkdir -p /data/app && \
+    tempuuid=$(cat /proc/sys/kernel/random/uuid) && mkdir -p /tmp/${tempuuid} && \
+    wget -c -O /tmp/${tempuuid}/wrapper.tar.gz --no-check-certificate ${WRAPPER_URL} && \
+    tar -zxf /tmp/${tempuuid}/wrapper.tar.gz -C /tmp/${tempuuid} && \
+    wrappername=$(tar -tf /tmp/${tempuuid}/wrapper.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
+    \cp -rf /tmp/${tempuuid}/${wrappername}/. /data/app && \
+    \cp -rf /data/app/conf/wrapper.single.temp /data/app/conf/wrapper.conf && \
+    \cp -rf /data/app/conf/wrapper-property.single.temp /data/app/conf/wrapper-property.conf && \
+    \cp -rf /data/app/conf/wrapper-additional.single.temp /data/app/conf/wrapper-additional.conf && \
+    sed -i 's/^set.JAVA_HOME/#&/g' "/data/app/conf/wrapper.conf" && \
+    \rm -rf /data/app/conf/*.temp && \
+    \rm -rf /tmp/${tempuuid} && \
+    \rm -rf /data/app/bin/*.bat && \
+    \rm -rf /data/app/bin/*.exe && \
+    \rm -rf /data/app/library/*.dll && \
+    \rm -rf /data/app/tool && \
+    find /data/app | xargs touch && \
+    find /data/app -type d -print | xargs chmod 755 && \
+    find /data/app -type f -print | xargs chmod 644 && \
+    chmod 744 /data/app/bin/* && \
+    chmod 644 /data/app/bin/*.jar && \
+    chmod 644 /data/app/bin/*.cnf && \
+    chmod 600 /data/app/conf/*.password && \
+    chmod 777 /data/app/logs && \
+    chmod 777 /data/app/temp && \
+    chown -R app:app /data/app && \
+    /data/app/bin/wrapper-create-linkfile.sh
+
+# set work home
+WORKDIR /data
+
+# expose port
+EXPOSE 8080 10087 10001 10002
+
+# stop signal
+STOPSIGNAL SIGTERM
+
+# entry point
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+# default command
+CMD ["/data/app/bin/wrapper-linux-x86-64", "/data/app/conf/wrapper.conf", "wrapper.syslog.ident=myapp", "wrapper.pidfile=/data/app/bin/myapp.pid", "wrapper.name=myapp", "wrapper.displayname=myapp", "wrapper.statusfile=/data/app/bin/myapp.status", "wrapper.java.statusfile=/data/app/bin/myapp.java.status", "wrapper.script.version=3.5.39"]
