@@ -41,6 +41,7 @@ RUN mkdir -p /data/app && \
     \cp -rf /tmp/${tempuuid}/${tomcatname}/conf/. /data/app/conf/ && \
     \cp -rf /tmp/${tempuuid}/${tomcatname}/lib/. /data/app/lib/ && \
     \cp -rf /tmp/assets/catalina.properties /data/app/conf/ && \
+    \cp -rf /tmp/assets/web.xml /data/app/conf/ && \
     \cp -rf /tmp/assets/server.xml /data/app/conf/ && \
     \cp -rf /tmp/assets/log4j2.xml /data/app/lib/ && \
     \rm -rf /tmp/assets && \
