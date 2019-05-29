@@ -55,12 +55,10 @@ RUN mkdir -p /data/app && \
     log4j2name=$(tar -tf /tmp/${tempuuid}/log4j2.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
     \rm -rf /tmp/${tempuuid}/${log4j2name}/*-javadoc.jar && \
     \rm -rf /tmp/${tempuuid}/${log4j2name}/*-sources.jar && \
+    \rm -rf /tmp/${tempuuid}/${log4j2name}/*-tests.jar && \
     \cp -rf /tmp/${tempuuid}/${log4j2name}/log4j-1.2-api-*.jar /data/app/lib/ && \
     \cp -rf /tmp/${tempuuid}/${log4j2name}/log4j-api-*.jar /data/app/lib/ && \
-    \cp -rf /tmp/${tempuuid}/${log4j2name}/log4j-appserver-*.jar /data/app/lib/ && \
     \cp -rf /tmp/${tempuuid}/${log4j2name}/log4j-core-*.jar /data/app/lib/ && \
-    \cp -rf /tmp/${tempuuid}/${log4j2name}/log4j-jcl-*.jar /data/app/lib/ && \
-    \cp -rf /tmp/${tempuuid}/${log4j2name}/log4j-jul-*.jar /data/app/lib/ && \
     \cp -rf /tmp/${tempuuid}/${log4j2name}/log4j-web-*.jar /data/app/lib/ && \
     \rm -rf /tmp/${tempuuid} && \
     \rm -rf /data/app/bin/*.bat && \
