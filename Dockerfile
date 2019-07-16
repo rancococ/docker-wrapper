@@ -1,5 +1,5 @@
-# from registry.cn-hangzhou.aliyuncs.com/rancococ/oraclejre:1.8.0_192-2-centos
-FROM registry.cn-hangzhou.aliyuncs.com/rancococ/oraclejre:1.8.0_192-2-centos
+# from registry.cn-hangzhou.aliyuncs.com/rancococ/oraclejre:1.8.0_192-3-centos
+FROM registry.cn-hangzhou.aliyuncs.com/rancococ/oraclejre:1.8.0_192-3-centos
 
 # maintainer
 MAINTAINER "rancococ" <rancococ@qq.com>
