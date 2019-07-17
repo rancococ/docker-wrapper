@@ -5,7 +5,7 @@ FROM registry.cn-hangzhou.aliyuncs.com/rancococ/oraclejre:1.8.0_192-3-centos
 MAINTAINER "rancococ" <rancococ@qq.com>
 
 # set arg info
-ARG WRAPPER_URL=https://github.com/rancococ/wrapper/archive/v3.5.39.1.tar.gz
+ARG WRAPPER_URL=https://github.com/rancococ/wrapper/archive/v3.5.39.2.tar.gz
 ARG TOMCAT_URL=https://mirrors.huaweicloud.com/apache/tomcat/tomcat-8/v8.5.40/bin/apache-tomcat-8.5.40.tar.gz
 ARG TOMCAT_JULI_URL=https://mirrors.huaweicloud.com/apache/tomcat/tomcat-8/v8.0.53/bin/extras/tomcat-juli.jar
 ARG TOMCAT_JULI_ADAPTERS_URL=https://mirrors.huaweicloud.com/apache/tomcat/tomcat-8/v8.0.53/bin/extras/tomcat-juli-adapters.jar
@@ -63,7 +63,8 @@ RUN mkdir -p /data/app && \
     \rm -rf /tmp/${tempuuid} && \
     \rm -rf /data/app/bin/*.bat && \
     \rm -rf /data/app/bin/*.exe && \
-    \rm -rf /data/app/library/*.dll && \
+    \rm -rf /data/app/libcore/*.dll && \
+    \rm -rf /data/app/libextend/*.dll && \
     \rm -rf /data/app/tool && \
     find /data/app | xargs touch && \
     find /data/app -type d -print | xargs chmod 755 && \
