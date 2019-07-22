@@ -13,12 +13,15 @@ ARG CATALINA_JMX_REMOTE_URL=https://mirrors.huaweicloud.com/apache/tomcat/tomcat
 ARG CATALINA_WS_URL=https://mirrors.huaweicloud.com/apache/tomcat/tomcat-8/v8.5.40/bin/extras/catalina-ws.jar
 ARG TOMCAT_EXTEND_URL=https://github.com/rancococ/tomcat-ext/releases/download/v1.0.0/tomcat-extend-1.0.0-SNAPSHOT.jar
 ARG LOG4J2_URL=https://mirrors.huaweicloud.com/apache/logging/log4j/2.11.1/apache-log4j-2.11.1-bin.tar.gz
+ARG JMX_EXPORTER_VERSION=0.12.0
+ARG JMX_EXPORTER_URL=https://mirrors.huaweicloud.com/repository/maven/io/prometheus/jmx/jmx_prometheus_javaagent/${JMX_EXPORTER_VERSION}/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar
 
 # copy script
 COPY ./assets/. /tmp/assets/
 
 # install wrapper, tomcat, log4j2
 RUN mkdir -p /data/app && \
+    mkdir -p /data/app/exporter && \
     mkdir -p /data/app/webapps && \
     mkdir -p /data/app/webapps/ROOT && \
     tempuuid=$(cat /proc/sys/kernel/random/uuid) && mkdir -p /tmp/${tempuuid} && \
@@ -31,6 +34,9 @@ RUN mkdir -p /data/app && \
     \cp -rf /data/app/conf/wrapper-additional.tomcat.temp /data/app/conf/wrapper-additional.conf && \
     sed -i 's/^set.JAVA_HOME/#&/g' "/data/app/conf/wrapper.conf" && \
     \rm -rf /data/app/conf/*.temp && \
+    wget -c -O /data/app/exporter/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar --no-check-certificate ${JMX_EXPORTER_URL} && \
+    \cp -rf /tmp/assets/jmx_exporter.yml /data/app/exporter/ && \
+    sed -i "/^-server$/i\-javaagent:../exporter/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar=8090:../exporter/jmx_exporter.yml" "/data/app/conf/wrapper-additional.conf" && \
     wget -c -O /tmp/${tempuuid}/tomcat.tar.gz --no-check-certificate ${TOMCAT_URL} && \
     tar -zxf /tmp/${tempuuid}/tomcat.tar.gz -C /tmp/${tempuuid} && \
     tomcatname=$(tar -tf /tmp/${tempuuid}/tomcat.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
