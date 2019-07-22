@@ -6,9 +6,15 @@ MAINTAINER "rancococ" <rancococ@qq.com>
 
 # set arg info
 ARG WRAPPER_URL=https://github.com/rancococ/wrapper/archive/v3.5.39.2.tar.gz
+ARG JMX_EXPORTER_VERSION=0.12.0
+ARG JMX_EXPORTER_URL=https://mirrors.huaweicloud.com/repository/maven/io/prometheus/jmx/jmx_prometheus_javaagent/${JMX_EXPORTER_VERSION}/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar
+
+# copy script
+COPY ./assets/. /tmp/assets/
 
 # install wrapper
 RUN mkdir -p /data/app && \
+    mkdir -p /data/app/exporter && \
     tempuuid=$(cat /proc/sys/kernel/random/uuid) && mkdir -p /tmp/${tempuuid} && \
     wget -c -O /tmp/${tempuuid}/wrapper.tar.gz --no-check-certificate ${WRAPPER_URL} && \
     tar -zxf /tmp/${tempuuid}/wrapper.tar.gz -C /tmp/${tempuuid} && \
@@ -19,6 +25,10 @@ RUN mkdir -p /data/app && \
     \cp -rf /data/app/conf/wrapper-additional.single.temp /data/app/conf/wrapper-additional.conf && \
     sed -i 's/^set.JAVA_HOME/#&/g' "/data/app/conf/wrapper.conf" && \
     \rm -rf /data/app/conf/*.temp && \
+    wget -c -O /data/app/exporter/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar --no-check-certificate ${JMX_EXPORTER_URL} && \
+    \cp -rf /tmp/assets/jmx_exporter.yml /data/app/exporter/ && \
+    sed -i "/^-server$/i\-javaagent:../exporter/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar=8090:../exporter/jmx_exporter.yml" "/data/app/conf/wrapper-additional.conf" && \
+    \rm -rf /tmp/assets && \
     \rm -rf /tmp/${tempuuid} && \
     \rm -rf /data/app/bin/*.bat && \
     \rm -rf /data/app/bin/*.exe && \
