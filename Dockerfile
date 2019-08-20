@@ -27,7 +27,7 @@ RUN mkdir -p /data/app && \
     \rm -rf /data/app/conf/*.temp && \
     wget -c -O /data/app/exporter/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar --no-check-certificate ${JMX_EXPORTER_URL} && \
     \cp -rf /tmp/assets/jmx_exporter.yml /data/app/exporter/ && \
-    sed -i "/^-server$/i\-javaagent:../exporter/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar=8090:../exporter/jmx_exporter.yml" "/data/app/conf/wrapper-additional.conf" && \
+    sed -i "/^-server$/i\-javaagent:%WRAPPER_BASE_DIR%/exporter/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar=9404:%WRAPPER_BASE_DIR%/exporter/jmx_exporter.yml" "/data/app/conf/wrapper-additional.conf" && \
     \rm -rf /tmp/assets && \
     \rm -rf /tmp/${tempuuid} && \
     \rm -rf /data/app/bin/*.bat && \
