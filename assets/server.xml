@@ -35,7 +35,7 @@
       </Realm>
       <Host name="localhost" deployOnStartup="false" deployXML="true" autoDeploy="true" unpackWARs="false" appBase="webapps">
         <Valve className="org.apache.catalina.authenticator.SingleSignOn"/>
-        <Valve className="org.apache.catalina.valves.AccessLogValveWithParameter" conditionWithParameter="heathcheck" pattern="%{X-Forwarded-For}i %h %l %u %t %r %s %b %D %q %{User-Agent}i" suffix=".log" prefix="localhost_access" directory="logs" maxDays="30"/>
+        <Valve className="org.apache.catalina.valves.AccessLogValveWithParameter" conditionWithParameter="healthcheck" pattern="%{X-Forwarded-For}i %h %l %u %t %r %s %b %D %q %{User-Agent}i" suffix=".log" prefix="localhost_access" directory="logs" maxDays="30"/>
         <Context sessionCookieName="${session.cookie.name}" sessionCookiePath="${session.cookie.path}" distributable="true" reloadable="false" swallowOutput="true" docBase="ROOT" path="">
             <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow=".*" />
         </Context>
