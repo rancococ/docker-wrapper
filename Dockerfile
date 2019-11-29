@@ -5,7 +5,7 @@ FROM registry.cn-hangzhou.aliyuncs.com/rancococ/oraclejre:1.8.0_192.5-centos
 MAINTAINER "rancococ" <rancococ@qq.com>
 
 # set arg info
-ARG WRAPPER_URL=https://github.com/rancococ/wrapper/archive/v3.5.39.2.tar.gz
+ARG WRAPPER_URL=https://github.com/rancococ/wrapper/archive/v3.5.41.1.tar.gz
 ARG TOMCAT_URL=https://mirrors.huaweicloud.com/apache/tomcat/tomcat-8/v8.5.40/bin/apache-tomcat-8.5.40.tar.gz
 ARG TOMCAT_JULI_URL=https://mirrors.huaweicloud.com/apache/tomcat/tomcat-8/v8.0.53/bin/extras/tomcat-juli.jar
 ARG TOMCAT_JULI_ADAPTERS_URL=https://mirrors.huaweicloud.com/apache/tomcat/tomcat-8/v8.0.53/bin/extras/tomcat-juli-adapters.jar
@@ -97,4 +97,4 @@ STOPSIGNAL SIGTERM
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # default command
-CMD ["/data/app/bin/wrapper-linux-x86-64", "/data/app/conf/wrapper.conf", "wrapper.syslog.ident=myapp", "wrapper.pidfile=/data/app/bin/myapp.pid", "wrapper.name=myapp", "wrapper.displayname=myapp", "wrapper.statusfile=/data/app/bin/myapp.status", "wrapper.java.statusfile=/data/app/bin/myapp.java.status", "wrapper.script.version=3.5.39"]
+CMD ["/data/app/bin/wrapper-linux-x86-64", "/data/app/conf/wrapper.conf", "wrapper.syslog.ident=myapp", "wrapper.pidfile=/data/app/bin/myapp.pid", "wrapper.name=myapp", "wrapper.displayname=myapp", "wrapper.statusfile=/data/app/bin/myapp.status", "wrapper.java.statusfile=/data/app/bin/myapp.java.status", "wrapper.script.version=3.5.41"]
