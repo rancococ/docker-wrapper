@@ -5,7 +5,7 @@ FROM registry.cn-hangzhou.aliyuncs.com/rancococ/oraclejre:1.8.0_192.5-centos
 MAINTAINER "rancococ" <rancococ@qq.com>
 
 # set arg info
-ARG WRAPPER_URL=https://github.com/rancococ/wrapper/archive/v3.5.39.2.tar.gz
+ARG WRAPPER_URL=https://github.com/rancococ/wrapper/archive/v3.5.41.1.tar.gz
 ARG JMX_EXPORTER_VERSION=0.12.0
 ARG JMX_EXPORTER_URL=https://mirrors.huaweicloud.com/repository/maven/io/prometheus/jmx/jmx_prometheus_javaagent/${JMX_EXPORTER_VERSION}/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar
 
@@ -60,4 +60,4 @@ STOPSIGNAL SIGTERM
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # default command
-CMD ["/data/app/bin/wrapper-linux-x86-64", "/data/app/conf/wrapper.conf", "wrapper.syslog.ident=myapp", "wrapper.pidfile=/data/app/bin/myapp.pid", "wrapper.name=myapp", "wrapper.displayname=myapp", "wrapper.statusfile=/data/app/bin/myapp.status", "wrapper.java.statusfile=/data/app/bin/myapp.java.status", "wrapper.script.version=3.5.39"]
+CMD ["/data/app/bin/wrapper-linux-x86-64", "/data/app/conf/wrapper.conf", "wrapper.syslog.ident=myapp", "wrapper.pidfile=/data/app/bin/myapp.pid", "wrapper.name=myapp", "wrapper.displayname=myapp", "wrapper.statusfile=/data/app/bin/myapp.status", "wrapper.java.statusfile=/data/app/bin/myapp.java.status", "wrapper.script.version=3.5.41"]
